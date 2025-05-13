@@ -1,18 +1,24 @@
 import React from 'react';
 
-import Menu from './src/views/menu/menu';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import {NavigationContainer} from '@react-navigation/native';
+
+import RootStack from './src/navigation/root_navigator';
 
 import {CardsProvider} from './src/contexts/cards_context';
 
-import {SafeAreaProvider} from 'react-native-safe-area-context';
-import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import './gesture-handler';
 
 const App = () => {
   return (
+    // eslint-disable-next-line react-native/no-inline-styles
     <GestureHandlerRootView style={{flex: 1}}>
       <SafeAreaProvider>
         <CardsProvider>
-          <Menu />
+          <NavigationContainer>
+            <RootStack />
+          </NavigationContainer>
         </CardsProvider>
       </SafeAreaProvider>
     </GestureHandlerRootView>

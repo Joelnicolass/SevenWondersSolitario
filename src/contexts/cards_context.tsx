@@ -65,7 +65,8 @@ export const CardsProvider = ({children}: CardsProviderProps) => {
   useEffect(() => {
     if (!leaders) return;
 
-    leaders[0]?.name && selectLeader(leaders[0].name);
+    leaders[leaders.length - 1]?.name &&
+      selectLeader(leaders[leaders.length - 1].name);
   }, [leaders]);
 
   const toggleAgora = (value: boolean) => {

@@ -127,6 +127,7 @@ export const Card = <T,>({
   return (
     <View
       pointerEvents="box-none"
+      // eslint-disable-next-line react-native/no-inline-styles
       style={{
         position: 'relative',
       }}>

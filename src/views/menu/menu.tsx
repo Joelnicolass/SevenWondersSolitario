@@ -12,64 +12,33 @@ import {Card} from '../../card';
 import {useSharedValue} from 'react-native-reanimated';
 import {useCardsContext} from '../../contexts/cards_context';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {NavigationProp, useNavigation} from '@react-navigation/native';
 
-const Menu = () => {
-  const {cards, form} = useCardsContext();
+const MenuScreen = () => {
+  const navigator = useNavigation<
+    NavigationProp<
+      {
+        Menu: undefined;
+        Game: undefined;
+      },
+      'Menu' | 'Game'
+    >
+  >();
   const shuffleBack = useSharedValue(true);
-  const {bottom, top} = useSafeAreaInsets();
+  const {top, bottom} = useSafeAreaInsets();
+  const {cards, form} = useCardsContext();
 
   return (
-    <View
-      style={{
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#161616',
-        paddingBottom: bottom,
-        paddingTop: top,
-      }}>
+    <View style={[styles.safeAreaContainer, {paddingTop: top}]}>
       <Image
         source={require('../../../assets/bg.png')}
-        style={{
-          position: 'absolute',
-          top: top,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          resizeMode: 'cover',
-          width: '100%',
-          height: '100%',
-        }}
-        blurRadius={15}
+        style={styles.bgImage}
+        blurRadius={100}
       />
-      <View
-        style={{
-          height: Dimensions.get('window').height / 3,
-          minHeight: 200,
-          maxHeight: 300,
-          width: '100%',
-          alignItems: 'center',
-          padding: 50,
-          backgroundColor: 'rgba(0, 0, 0, 0.5)',
-          borderBottomLeftRadius: 20,
-          borderBottomRightRadius: 20,
-          justifyContent: 'center',
-        }}>
-        <Text
-          style={{
-            color: 'white',
-            fontSize: 24,
-            fontWeight: 'bold',
-            marginBottom: 20,
-          }}>
-          Elige a tu rival
-        </Text>
+      <View style={styles.titleContainer}>
+        <Text style={styles.title}>Elige a tu rival</Text>
       </View>
-      <View
-        style={{
-          flex: 1,
-          marginTop: 40,
-        }}>
+      <View style={styles.swiperContainer}>
         {cards.leaders.map((card, index) => (
           <Card
             card={{
@@ -79,10 +48,20 @@ const Menu = () => {
             key={index}
             index={index}
             shuffleBack={shuffleBack}
-            onSwiped={(_, data) => {
+            onSwiped={() => {
               startTransition(() => {
-                form.selectLeader(data.name);
-                cards.shuffleActionDeck();
+                const leaderIndex = index - 1;
+                if (leaderIndex < 0) {
+                  form.selectLeader(
+                    cards.leaders[cards.leaders.length - 1].name,
+                  );
+                  return;
+                }
+                if (leaderIndex >= cards.leaders.length) {
+                  form.selectLeader(cards.leaders[0].name);
+                } else {
+                  form.selectLeader(cards.leaders[leaderIndex].name);
+                }
               });
             }}
             onSwipedAll={() => {
@@ -94,24 +73,10 @@ const Menu = () => {
         ))}
       </View>
 
-      <View style={styles.buttonsContainer}>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-          <View
-            style={{
-              gap: 6,
-            }}>
-            <Text
-              style={{
-                color: 'white',
-                fontSize: 16,
-              }}>
-              Agora
-            </Text>
+      <View style={[styles.buttonsContainer, {marginBottom: bottom}]}>
+        <View style={styles.switchContainer}>
+          <View style={styles.switchAndText}>
+            <Text style={styles.text}>Agora</Text>
             <Switch
               trackColor={{false: '#767577', true: '#f4a230'}}
               thumbColor={false ? '#f5dd4b' : '#f4f3f4'}
@@ -119,24 +84,15 @@ const Menu = () => {
               onValueChange={value => {
                 startTransition(() => {
                   form.toggleAgora(value);
+                  cards.shuffleActionDeck();
                 });
               }}
               value={form.useAgora}
             />
           </View>
 
-          <View
-            style={{
-              gap: 6,
-              marginLeft: 20,
-            }}>
-            <Text
-              style={{
-                color: 'white',
-                fontSize: 16,
-              }}>
-              Pantheon
-            </Text>
+          <View style={[styles.switchAndText, styles.separationLeft]}>
+            <Text style={styles.text}>Pantheon</Text>
             <Switch
               trackColor={{false: '#767577', true: '#f4a230'}}
               thumbColor={false ? '#f5dd4b' : '#f4f3f4'}
@@ -144,6 +100,7 @@ const Menu = () => {
               onValueChange={value => {
                 startTransition(() => {
                   form.togglePantheon(value);
+                  cards.shuffleActionDeck();
                 });
               }}
               value={form.usePantheon}
@@ -152,28 +109,29 @@ const Menu = () => {
         </View>
 
         <TouchableOpacity
-          style={{
-            borderRadius: 4,
-            backgroundColor: '#f4a230',
-            padding: 10,
-            elevation: 2,
-          }}
-          onPress={() => {}}>
-          <Text
-            style={{
-              color: 'white',
-            }}>
-            Continuar
-          </Text>
+          style={styles.buttonNext}
+          onPress={() => {
+            startTransition(() => {
+              cards.shuffleActionDeck();
+            });
+            navigator.navigate('Game');
+          }}>
+          <Text style={styles.text}>Continuar</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
 };
 
-export default Menu;
+export default MenuScreen;
 
 const styles = StyleSheet.create({
+  safeAreaContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#161616',
+  },
   container: {
     flex: 1,
     alignItems: 'center',
@@ -185,27 +143,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     width: '100%',
-    paddingVertical: 30,
+    paddingTop: 30,
     paddingHorizontal: 20,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-  },
-  button: {
-    height: 80,
-    borderRadius: 40,
-    marginHorizontal: 20,
-    aspectRatio: 1,
-    backgroundColor: '#3A3D45',
-    elevation: 4,
-    justifyContent: 'center',
-    alignItems: 'center',
-    shadowColor: 'black',
-    shadowOpacity: 0.1,
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
   },
   buttonText: {
     fontSize: 20,
@@ -236,5 +177,56 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     borderRadius: 15,
+  },
+  bgImage: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
+    top: 0,
+    resizeMode: 'cover',
+    width: '100%',
+    height: '110%',
+  },
+  titleContainer: {
+    height: Dimensions.get('window').height / 3,
+    minHeight: 200,
+    maxHeight: 300,
+    width: '100%',
+    alignItems: 'center',
+    padding: 50,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
+    justifyContent: 'center',
+  },
+  title: {
+    color: 'white',
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  swiperContainer: {
+    flex: 1,
+    marginTop: 40,
+  },
+  switchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  switchAndText: {
+    gap: 6,
+  },
+  text: {color: 'white', fontSize: 16},
+  separationLeft: {marginLeft: 8},
+  buttonNext: {
+    borderRadius: 4,
+    backgroundColor: '#f4a230',
+    padding: 10,
+    elevation: 2,
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

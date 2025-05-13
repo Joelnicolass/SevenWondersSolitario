@@ -105,37 +105,37 @@ export const CARDS_BASE_GAME = [
 
 export const CARDS_AGORA_GAME = [
   {
-    name: 'Leader 1',
+    name: 'Leader A1',
     type: 'LEADER',
     image: require('../../assets/cards/agora/card_leader_1.png'),
     exclude: [],
   },
   {
-    name: 'Action 1',
+    name: 'Action A1',
     type: 'ACTION',
     image: require('../../assets/cards/agora/card_action_1.png'),
     exclude: [],
   },
   {
-    name: 'Action 2',
+    name: 'Action A2',
     type: 'ACTION',
     image: require('../../assets/cards/agora/card_action_2.png'),
     exclude: [],
   },
   {
-    name: 'Action 3',
+    name: 'Action A3',
     type: 'ACTION',
     image: require('../../assets/cards/agora/card_action_3.png'),
     exclude: [],
   },
   {
-    name: 'Action 4',
+    name: 'Action A4',
     type: 'ACTION',
     image: require('../../assets/cards/agora/card_action_4.png'),
     exclude: [],
   },
   {
-    name: 'Action 5',
+    name: 'Action A5',
     type: 'ACTION',
     image: require('../../assets/cards/agora/card_action_5.png'),
     exclude: [],
@@ -144,37 +144,37 @@ export const CARDS_AGORA_GAME = [
 
 export const CARDS_PANTHEON_GAME = [
   {
-    name: 'Leader 1',
+    name: 'LeaderP1',
     type: 'LEADER',
     image: require('../../assets/cards/pantheon/card_leader_1.png'),
     exclude: [],
   },
   {
-    name: 'Leader 2',
+    name: 'Leader P2',
     type: 'LEADER',
     image: require('../../assets/cards/pantheon/card_leader_2.png'),
     exclude: [],
   },
   {
-    name: 'Leader 3',
+    name: 'Leader P3',
     type: 'LEADER',
     image: require('../../assets/cards/pantheon/card_leader_3.png'),
     exclude: [],
   },
   {
-    name: 'Action 1',
+    name: 'Action P1',
     type: 'ACTION',
     image: require('../../assets/cards/pantheon/card_action_1.png'),
     exclude: [],
   },
   {
-    name: 'Action 2',
+    name: 'Action P2',
     type: 'ACTION',
     image: require('../../assets/cards/pantheon/card_action_2.png'),
     exclude: [],
   },
   {
-    name: 'Action 3',
+    name: 'Action P3',
     type: 'ACTION',
     image: require('../../assets/cards/pantheon/card_action_3.png'),
     exclude: [],
