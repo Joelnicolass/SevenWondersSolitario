@@ -32,10 +32,10 @@ const MenuScreen = () => {
     <View style={[styles.safeAreaContainer, {paddingTop: top}]}>
       <Image
         source={require('../../../assets/bg.png')}
-        style={styles.bgImage}
+        style={[styles.bgImage]}
         blurRadius={100}
       />
-      <View style={styles.titleContainer}>
+      <View style={[styles.titleContainer]}>
         <Text style={styles.title}>Elige a tu rival</Text>
       </View>
       <View style={styles.swiperContainer}>

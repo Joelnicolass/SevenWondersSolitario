@@ -106,7 +106,6 @@ const styles = StyleSheet.create({
     marginTop: 20,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
   },
@@ -117,7 +116,7 @@ const styles = StyleSheet.create({
     borderColor: 'white',
     aspectRatio: 3 / 4.5,
     height: Dimensions.get('window').height * 0.3,
-    maxHeight: 300,
+    maxHeight: 200,
   },
   buttonsContainer: {
     position: 'absolute',

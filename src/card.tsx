@@ -163,6 +163,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     justifyContent: 'center',
     alignItems: 'center',
+    zIndex: 1,
   },
   card: {
     backgroundColor: 'white',
