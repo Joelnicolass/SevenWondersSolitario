@@ -35,6 +35,9 @@ const MenuScreen = () => {
         style={[styles.bgImage]}
         blurRadius={100}
       />
+      <View>
+        <Text>VERSION: ALPHA 0.1.1</Text>
+      </View>
       <View style={[styles.titleContainer]}>
         <Text style={styles.title}>Elige a tu rival</Text>
       </View>
